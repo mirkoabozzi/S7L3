@@ -53,11 +53,19 @@ const fetchBooks = () => {
           const li = document.createElement("li");
           li.classList.add("list-group-item");
           li.innerText = `${book.title} € ${book.price}`;
+          const removeBtn = document.createElement("button");
+          removeBtn.classList.add("btn", "btn-primary");
+          removeBtn.innerText = "Remove item";
+          li.appendChild(removeBtn);
           ul.appendChild(li);
           const { title, price } = book;
           cartArray.push({ title, price });
           console.log(cartArray);
           localStorage.setItem("Cart", JSON.stringify(cartArray));
+
+          removeBtn.onclick = () => {
+            ul.removeChild(li);
+          };
         });
       });
     })
@@ -76,8 +84,15 @@ window.addEventListener("DOMContentLoaded", () => {
       const li = document.createElement("li");
       li.classList.add("list-group-item");
       li.innerText = `${element.title} € ${element.price}`;
-
+      const removeBtn = document.createElement("button");
+      removeBtn.classList.add("btn", "btn-primary");
+      removeBtn.innerText = "Remove item";
+      li.appendChild(removeBtn);
       ul.appendChild(li);
+      ul.appendChild(li);
+      removeBtn.onclick = () => {
+        ul.removeChild(li);
+      };
     });
   }
 });
