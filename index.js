@@ -1,3 +1,6 @@
+let cartArray = [];
+console.log(cartArray);
+
 const fetchBooks = () => {
   fetch("https://striveschool-api.herokuapp.com/books")
     .then((booksApiObj) => {
@@ -44,6 +47,20 @@ const fetchBooks = () => {
         btn.addEventListener("click", (event) => {
           card.remove();
         });
+
+        const ul = document.getElementById("list");
+
+        addToCart.addEventListener("click", (event) => {
+          const li = document.createElement("li");
+
+          li.appendChild(card);
+
+          ul.appendChild(li);
+
+          cartArray.push(book.title);
+          console.log(cartArray);
+          localStorage.setItem("Cart", JSON.stringify(cartArray));
+        });
       });
     })
     .catch((error) => console.log(error));
@@ -51,4 +68,7 @@ const fetchBooks = () => {
 
 window.addEventListener("DOMContentLoaded", () => {
   fetchBooks();
+  const getCart = localStorage.getItem("Cart");
+  if (getCart) {
+  }
 });
