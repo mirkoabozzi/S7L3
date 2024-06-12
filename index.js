@@ -1,5 +1,6 @@
 let cartArray = [];
 console.log(cartArray);
+const ul = document.getElementById("list");
 
 const fetchBooks = () => {
   fetch("https://striveschool-api.herokuapp.com/books")
@@ -23,10 +24,10 @@ const fetchBooks = () => {
         card.classList.add("card", "g-5");
         const img = document.createElement("img");
         img.classList.add("card-img-top", "h-100");
-        img.setAttribute("src", `${book.img}`);
+        img.src = book.img;
         const title = document.createElement("h5");
         title.classList.add("card-title");
-        title.innerText = `${book.title}`;
+        title.innerText = book.title;
         const price = document.createElement("p");
         price.innerText = `€ ${book.price}`;
         const btn = document.createElement("a");
@@ -48,16 +49,13 @@ const fetchBooks = () => {
           card.remove();
         });
 
-        const ul = document.getElementById("list");
-
         addToCart.addEventListener("click", (event) => {
           const li = document.createElement("li");
-
-          li.appendChild(card);
-
+          li.classList.add("list-group-item");
+          li.innerText = `${book.title} € ${book.price}`;
           ul.appendChild(li);
-
-          cartArray.push(book.title);
+          const { title, price } = book;
+          cartArray.push({ title, price });
           console.log(cartArray);
           localStorage.setItem("Cart", JSON.stringify(cartArray));
         });
@@ -70,5 +68,16 @@ window.addEventListener("DOMContentLoaded", () => {
   fetchBooks();
   const getCart = localStorage.getItem("Cart");
   if (getCart) {
+    const cartToObj = JSON.parse(getCart);
+    cartArray = cartToObj;
+    console.log(cartArray);
+
+    cartArray.forEach((element) => {
+      const li = document.createElement("li");
+      li.classList.add("list-group-item");
+      li.innerText = `${element.title} € ${element.price}`;
+
+      ul.appendChild(li);
+    });
   }
 });
